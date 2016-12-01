@@ -1,4 +1,4 @@
-Role Name
+Ansible GoCD
 =========
 
 This role will help setup GoCD for Debian and RedHat based systems. GoCD is an Open source continuous delivery server to model and visualize complex workflows.

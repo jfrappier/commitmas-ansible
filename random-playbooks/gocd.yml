@@ -1,0 +1,44 @@
+---
+- hosts: gosrv
+  become: true
+  become_user: root
+
+  tasks:
+  - name: Ensure Java Installed (RedHat)
+    yum: name=java-1.7.0-openjdk state=present
+    when: ansible_os_family == "RedHat"
+
+  - name: Ensure Java Installed (Debian)
+    apt: name=java-1.7.0-openjdk state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Ensure GoCD repo added (RedHat)
+    copy:
+      src=gocd.repo
+      dest=/etc/yum.repos.d/gocd.repo
+    when: ansible_os_family == "RedHat"
+
+  - name: Ensure GoCD repo added (Debian)
+    copy:
+      src=gocd.list
+      dest=/etc/apt/sources.list.d/
+    when: ansible_os_family == "Debian"
+
+  - name: Ensure GoCD public key present (Redhat)
+    rpm_key: state=present key=https://download.go.cd/GOCD-GPG-KEY.asc
+    when: ansible_os_family == "RedHat"
+
+  - name: Ensure GoCD public key present (Debian)
+    apt_key: state=present url=https://download.go.cd/GOCD-GPG-KEY.asc
+    when: ansible_os_family == "Debian"
+
+  - name: Ensure GoCD Server installed (RedHat)
+    yum: name=go-server state=present update_cache=yes
+    when: ansible_os_family == "RedHat"
+
+  - name: Ensure GoCD Server installed (Debian)
+    apt: name=go-server state=present update_cache=yes
+    when: ansible_os_family == "Debian"
+
+  - name: Ensure GoCD Server started
+    service: name=go-server state=started enabled=yes

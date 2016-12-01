@@ -1,2 +1,3 @@
 ---
 # tasks file for ansible-gocd
+- include: base-redhat.yml

@@ -1,0 +1,3 @@
+---
+- name: Ensure GoCD public key available
+  rpm_key: state=present key=https://download.go.cd/GOCD-GPG-KEY.asc
