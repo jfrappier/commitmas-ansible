@@ -1,11 +1,13 @@
 ---
 - hosts: gosrv
+  vars:
+      java-jdk: java-1.7.0-openjdk
   become: true
   become_user: root
 
   tasks:
   - name: Ensure Java Installed (RedHat)
-    yum: name=java-1.7.0-openjdk state=present
+    yum: name={{ java-jdk }} state=present
     when: ansible_os_family == "RedHat"
 
   - name: Ensure Java Installed (Debian)
