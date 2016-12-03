@@ -9,6 +9,10 @@
   become_user: root
 
   tasks:
+  - name: Ensure libselinux-python installed (RedHat)
+    yum: name=libselinux-python state=present
+    when: ansible_os_family == "RedHat"
+
   - name: Ensure Java Installed (RedHat)
     yum: name={{ jdkver }} state=present
     when: ansible_os_family == "RedHat"
