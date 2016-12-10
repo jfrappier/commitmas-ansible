@@ -1,10 +1,10 @@
 ---
-- hosts: goagt
+- hosts: gosrv
   vars:
       jdkver: java-1.7.0-openjdk
       gocdyumrepo: gocd.repo
       gocdaptrepo: gocd.list
-      gocdkeyurl: https://download.go.cd/GOCD-GPG-KEY.asc
+      gocdkeyurl: https://download.go.cd/GOCD-GPG-KEY.asc  
   become: true
   become_user: root
 
@@ -41,23 +41,19 @@
     apt_key: state=present url={{ gocdkeyurl }}
     when: ansible_os_family == "Debian"
 
-  - name: Ensure GoCD Agent installed (RedHat)
-    yum: name=go-agent state=present update_cache=yes
+  - name: Ensure GoCD Server installed (RedHat)
+    yum: name=go-server state=present update_cache=yes
     when: ansible_os_family == "RedHat"
+    notify: restart-goserver
 
-  - name: Ensure GoCD Agent installed (Debian)
-    apt: name=go-agent state=present update_cache=yes
+  - name: Ensure GoCD Server installed (Debian)
+    apt: name=go-server state=present update_cache=yes
     when: ansible_os_family == "Debian"
-
-  - name: Ensure GoCD Agent config used
-    copy:
-      src=go-agent
-      dest=/etc/default
-    notify: restart_goagent
+    notify: restart-goserver
 
   handlers:
-  - name: restart_goagent
+  - name: restart-goserver
     service:
-      name: go-agent
+      name: go-server
       state: restarted
       enabled: yes 
