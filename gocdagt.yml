@@ -1,6 +1,6 @@
 ---
-- hosts: gosrv
+- hosts: goagt
   become: yes
   become_user: root
   roles:
-     - ansible-gocd
+     - ansible-gocdagt
