@@ -1,49 +1,35 @@
-Ansible GoCD
-=========
+Ansible GoCD Server
+===================
 
-This role will help setup GoCD for Debian and RedHat based systems. GoCD is an Open source continuous delivery server to model and visualize complex workflows.
-
-To Do
------
-- Task to add/configure yum repo
-- Task to install Java (yum)
-- Task to install GoCD server (yum)
-- Task to add/configure apt repo
-- Task to install Java (apt)
-- Task to install GoCD server (yum)
-- Handler to start GoCD server
-- Task to install GoCD agent (yum)
-- Task to install GoCD agent (apt)
-- Handler to start GoCD agent
-- Task to copy sample config file to GoCD agent
+This role will help setup GoCD server for Debian and RedHat based systems. GoCD is an Open source continuous delivery server to model and visualize complex workflows.
 
 Requirements
 ------------
 
-GoCD uses a server/agent model. This role assumes that two servers are available and defined in /etc/ansible/hosts in groups called [gosrv] and [goagt]. You can adjust these per your level of CDO (OCD in alphabetical order).
+GoCD uses a server/agent model. This role deploys the GoCD server component, and assumes a host defined in /etc/ansible/hosts in groups called [gosrv]. You can adjust these per your level of CDO (OCD in alphabetical order). Adjust the become_user to match your system and organizational requirements.
 
-Additionally, GoCD requires Java, however this role will (attempt) to install Java accordingly. Additional documentation is available [here](https://docs.go.cd/current/installation/install/server/linux.html).
+Additionally, GoCD requires Java, this role will install Java accordingly. Additional documentation is available [here](https://docs.go.cd/current/installation/install/server/linux.html).
 
 Role Variables
 --------------
 
-javaver - Version of Java used by the install documentation
+jdkver: Version of Java used by the install documentation
+gocdyumrepo: yum repo config as defined in official GoCD documentation
+gocdaptreo: apt repo config as defined in official GoCD documentation
+gocdkeyurl: gpg key as defined in official GoCD documentation
 
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+An example of how to use the role:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
+- hosts: gosrv
+  become: yes
+  become_user: root
+  roles:
+     - ansible-gocd
+	 
 License
 -------
 
